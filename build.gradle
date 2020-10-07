@@ -63,11 +63,7 @@ task downloadData() {
             }
         }
 
-        //def reader = new FileReader(new File(pathToTempFolder.toString()+"/mocheckso_errors.csv"))
-        //def writer = new FileWriter(new File(pathToTempFolder.toString()+"/mocheckso_errors_semicolon.csv"))
-        //def zaehler = 0
-        //reader.transformLine (writer) { it.replace("\t",";") }
-
+        // TODO: In Rote Faden Doku!!!!
         def fileContent = new File(pathToTempFolder.toString()+"/mocheckso_errors.csv").getText('windows-1252')
         new File(pathToTempFolder.toString()+"/mocheckso_errors_semicolon.csv").write(fileContent.replace("\t",";"),'utf-8')
 
