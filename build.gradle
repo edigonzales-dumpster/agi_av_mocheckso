@@ -28,7 +28,7 @@ def user = ftpUserInfogrips
 def password = ftpPwdInfogrips
 def remoteFileName = "\\DM01AVSO24LV95\\ERROR\\MOCHECKSO_ERRORS.CSV"
 
-task downloadData() {
+task downloadCsv() {
     doLast {
         def ftp = new FTPClient()
 
@@ -64,19 +64,20 @@ task downloadData() {
         }
 
         // TODO: In Rote Faden Doku!!!!
+        // Achtung: Das gesamte File wird in den Memory gelesen.
         def fileContent = new File(pathToTempFolder.toString()+"/mocheckso_errors.csv").getText('windows-1252')
         new File(pathToTempFolder.toString()+"/mocheckso_errors_semicolon.csv").write(fileContent.replace("\t",";"),'utf-8')
 
     }
 }
 
-task validateCsv(type: CsvValidator, dependsOn: 'downloadData') {
+task validateCsv(type: CsvValidator, dependsOn: 'downloadCsv') {
     models = "SO_AGI_MOCheckSO_20200715"
+    modeldir = "./model;http://models.geo.admin.ch"
     firstLineIsHeader = true
     valueDelimiter = null
     valueSeparator = ';'
     encoding = "UTF-8"
     dataFiles = [pathToTempFolder.toString()+"/mocheckso_errors_semicolon.csv"]
-    //dataFiles = ["fubar2.csv"]
 }
 
